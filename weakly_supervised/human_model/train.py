@@ -103,7 +103,7 @@ if __name__ == "__main__":
     model = Model().create_model((opt.im_h, opt.im_w, 3), num_classes)
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
-    model.compile(optimizer=optimizer, loss='categorical_crossentropy')
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=[tf.keras.metrics.Accuracy()])
     model.fit_generator(train_generator, steps_per_epoch=steps, epochs=opt.epochs, workers=40, max_queue_size=150,
                         use_multiprocessing=True)
 
