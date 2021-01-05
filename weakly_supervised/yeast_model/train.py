@@ -42,13 +42,6 @@ def load_image_gt(ds, image_id, augment=True):
         if np.random.choice([0, 1]):
             x_protein = np.flipud(x_protein)
             x_bf = np.flipud(x_bf)
-        if np.random.choice([0, 1]):
-            y_protein = np.fliplr(y_protein)
-            y_bf = np.fliplr(y_bf)
-        if np.random.choice([0, 1]):
-            y_protein = np.flipud(y_protein)
-            y_bf = np.flipud(y_bf)
-
     # Stack inputs and outputs as necessary
     x_in = np.stack((x_protein, x_bf), axis=-1)
 
