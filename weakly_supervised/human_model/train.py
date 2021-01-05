@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # Train the model (specify learning rates and epochs here)
     model = Model().create_model((opt.im_h, opt.im_w, 3), len(ds.image_info))
 
-    optimizer = tf.train.AdamOptimizer(learning_rate=opt.learning_rate, beta1=0.5)
+    optimizer = keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy')
     model.fit_generator(train_generator, steps_per_epoch=steps, epochs=opt.epochs, workers=40, max_queue_size=150,
                         use_multiprocessing=True)
