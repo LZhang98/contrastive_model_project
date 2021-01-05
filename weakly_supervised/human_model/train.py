@@ -96,6 +96,8 @@ if __name__ == "__main__":
     train_generator = data_generator(ds, batch_size=opt.batch_size)
     steps = len(ds.image_info) // opt.batch_size
 
+    print("Number of classes", len(ds.image_info))
+
     print("Training the model...")
     # Train the model (specify learning rates and epochs here)
     model = Model().create_model((opt.im_h, opt.im_w, 3), len(ds.image_info))
