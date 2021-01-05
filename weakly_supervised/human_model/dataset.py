@@ -119,7 +119,7 @@ class Dataset(object):
         self.image_ids = np.arange(self.num_images)
 
         # Create image labels
-        for image in image_info:
+        for image in self.image_info:
             one_hot_index = image['id']
             label = np.zeros(self.num_images)
             label[one_hot_index] = 1
