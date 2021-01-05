@@ -1,10 +1,3 @@
-'''
-Scripts to load and prepare human single cells for input into the CNN during training.
-
-Author: Alex Lu
-Email: alexlu@cs.toronto.edu
-Copyright (C) 2018 Alex Lu
-'''
 
 import os
 import numpy as np
@@ -26,7 +19,7 @@ class Dataset(object):
         image_info = {
             "id": image_id,            # Unique integer representation of the image
             "path": path,              # Path where the image is stored
-            "name": name,              # Name of the image
+            "name": name               # Name of the image
         }
         self.image_info.append(image_info)
 
@@ -52,10 +45,15 @@ class Dataset(object):
                     name=image_names[j])
                 i += 1
 
-    '''Load and return the image indexed by the integer given by image_id'''
+    '''Load and return the image indexed by the integer given by image_id.
+       Also return its label
+    '''
     def load_image(self, image_id):
         # Get the path of the image
         path = self.image_info[image_id]['path']
+        
+        # Get the one-hot label of the image
+        label = self.image_info[image_id]['label']
 
         # Load and return all three channels for the Human Protein Atlas
         antibodyname = self.image_info[image_id]['name']
@@ -66,7 +64,7 @@ class Dataset(object):
         nucleus = np.array(Image.open(path + nucleusname))
         microtubule = np.array(Image.open(path + microtubulename))
 
-        return antibody, nucleus, microtubule
+        return antibody, nucleus, microtubule, label
 
     '''Load and return the image indexed by the integer given by image_id; also returns the
     name of the image, just for debugging purposes'''
@@ -119,3 +117,11 @@ class Dataset(object):
         # Build (or rebuild) everything else from the info dicts.
         self.num_images = len(self.image_info)
         self.image_ids = np.arange(self.num_images)
+
+        # Create image labels
+        for image in image_info:
+            one_hot_index = image['id']
+            label = np.zeros(self.num_images)
+            label[one_hot_index] = 1
+
+            image['label'] = label

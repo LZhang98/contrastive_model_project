@@ -1,10 +1,3 @@
-'''
-Opts file for loading images - specifies the image sizes and paths to load data from and save weights to.
-
-Author: Alex Lu
-Email: alexlu@cs.toronto.edu
-Copyright (C) 2018 Alex Lu
-'''
 
 import os
 
