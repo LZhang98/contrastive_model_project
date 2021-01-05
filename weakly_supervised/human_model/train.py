@@ -91,8 +91,8 @@ if __name__ == "__main__":
     # Load all images in the training set (argument given in opts.py) into a Dataset class and
     # create data generator for training
     ds = Dataset()
-    ds.add_dataset(opt.data_path)
-    ds.prepare()
+    num_classes = ds.add_dataset(opt.data_path)
+    ds.prepare(num_classes)
     train_generator = data_generator(ds, batch_size=opt.batch_size)
     steps = len(ds.image_info) // opt.batch_size
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     print("Training the model...")
     # Train the model (specify learning rates and epochs here)
-    model = Model().create_model((opt.im_h, opt.im_w, 3), len(ds.image_info))
+    model = Model().create_model((opt.im_h, opt.im_w, 3), num_classes)
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy')
