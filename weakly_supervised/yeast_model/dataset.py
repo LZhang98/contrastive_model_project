@@ -20,16 +20,21 @@ class Dataset(object):
     '''Add an individual image to the class. Called iteratively by add_dataset().
     For memory purposes, this class loads only the paths of each image, and returns the 
     actual images as needed.'''
-    def add_image(self, image_id, path, name):
+    def add_image(self, image_id, path, name, class_index):
         image_info = {
             "id": image_id,         # Unique integer representation of the image
             "path": path,           # Path where the image is stored
             "name": name,           # Name of the image
+            "class": class_index        # Index for one-hot label generation
         }
         self.image_info.append(image_info)
 
+    """Function for adding a directory containing subdirectories of images, grouped by protein.
+    
+    Returns the number of folders in the directory. (Final folder_count)"""
     def add_dataset(self, root_dir):
         i = 0       # Used to assign a unique integer index to each image
+        folder_count = 0
 
         # Iterate over every image in the dataset
         for currdir in os.listdir(root_dir):
@@ -47,8 +52,13 @@ class Dataset(object):
                 self.add_image(
                     image_id=i,
                     path=root_dir + currdir + "/",
-                    name=image_names[j])
+                    name=image_names[j],
+                    class_index=folder_count)
                 i += 1
+            
+            folder_count += 1
+        
+        return folder_count
 
     '''Load and return the image indexed by the integer given by image_id'''
     def load_image(self, image_id):
@@ -56,6 +66,9 @@ class Dataset(object):
         path = self.image_info[image_id]['path']
         proteinname = self.image_info[image_id]['name']
         brightfieldname = proteinname.replace("_gfp", "_bf")
+
+         # Get the one-hot label of the image
+        label = self.image_info[image_id]['label']
 
         # Load and return all two channels for yeast data
         protein = np.array(Image.open(path + proteinname))
@@ -65,7 +78,7 @@ class Dataset(object):
             brightfieldname = proteinname.replace("_gfp", "_rfp")
             brightfield = np.array(Image.open(path + brightfieldname))
 
-        return protein, brightfield
+        return protein, brightfield, label
 
     '''Load and return the image indexed by the integer given by image_id; also returns the
         name of the image, just for debugging purposes'''
@@ -117,8 +130,16 @@ class Dataset(object):
         else:
             raise ValueError("Directory " + path + " has only one image.")
 
-    '''Prepares the dataset file for use.'''
-    def prepare(self):
+    '''Prepares the dataset file for use.
+    
+    Uses num_classes from add_dataset to generate one-hot vectors'''
+    def prepare(self, num_classes):
         # Build (or rebuild) everything else from the info dicts.
         self.num_images = len(self.image_info)
         self.image_ids = np.arange(self.num_images)
+
+        # Generate one hot vectors. Use num_classes for vector length
+        for image in self.image_info:
+            label = np.zeros(num_classes)
+            label[image['class']] = 1
+            image['label'] = label

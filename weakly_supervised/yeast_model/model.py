@@ -42,7 +42,7 @@ class Model():
         # 3) Add a classification output layer
         classifier = layers.Dense(num_classes, activation='softmax')(fc2)
 
-        # Classification output
+        # Paired cell inpainting output
         model = models.Model(inputs=x_in, outputs=classifier)
 
         return model

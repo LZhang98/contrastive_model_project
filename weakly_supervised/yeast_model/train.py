@@ -22,24 +22,17 @@ import skimage.exposure
 
 import opts as opt
 from dataset import Dataset
-from pair_model import Pair_Model
+from model import Model
 
 '''Given a dataset class (see dataset.py), load an image from the class'''
 def load_image_gt(ds, image_id, augment=True):
     # Load image and pair
-    x_protein, x_bf, label = ds.load_image_with_label(image_id)
-    y_protein, y_bf = ds.sample_pair_equally(image_id)
+    (x_protein, x_bf, t) = ds.load_image(image_id)
 
     # Whatever preprocessing operations we need here
     # Rescale images
-    with warnings.catch_warnings():
-        try:
-            x_protein = skimage.exposure.rescale_intensity(x_protein.astype(np.float32), out_range=(0, 1))
-            y_protein = skimage.exposure.rescale_intensity(y_protein.astype(np.float32), out_range=(0, 1))
-            x_bf = skimage.exposure.rescale_intensity(x_bf.astype(np.float32), out_range=(0, 1))
-            y_bf = skimage.exposure.rescale_intensity(y_bf.astype(np.float32), out_range=(0, 1))
-        except RuntimeWarning:
-            print (label)
+    x_protein = skimage.exposure.rescale_intensity(x_protein.astype(np.float32), out_range=(0, 1))
+    x_bf = skimage.exposure.rescale_intensity(x_bf.astype(np.float32), out_range=(0, 1))
 
     # Randomly flip the images if augmenting
     if augment:
@@ -58,10 +51,8 @@ def load_image_gt(ds, image_id, augment=True):
 
     # Stack inputs and outputs as necessary
     x_in = np.stack((x_protein, x_bf), axis=-1)
-    y_in = np.expand_dims(y_bf, axis=-1)
-    y_out = np.expand_dims(y_protein, axis=-1)
 
-    return x_in, y_in, y_out
+    return x_in, t
 
 '''Data generator for Keras model (retrieves images infinitely)'''
 def data_generator(dataset, shuffle=True, augment=True, batch_size=1):
@@ -78,25 +69,22 @@ def data_generator(dataset, shuffle=True, augment=True, batch_size=1):
 
         # Get current image
         image_id = image_ids[image_index]
-        x_in, y_in, y_out = load_image_gt(dataset, image_id, augment=augment)
+        x_in, t = load_image_gt(dataset, image_id, augment=augment)
 
         # Initialize batch arrays if empty
         if b == 0:
             batch_x_in = np.zeros((batch_size,) + x_in.shape)
-            batch_y_in = np.zeros((batch_size,) + y_in.shape)
-            batch_y_out = np.zeros((batch_size,) + y_out.shape)
+            batch_t = np.zeros((batch_size,) + t.shape)
 
         # Add image to batch
         batch_x_in[b] = x_in
-        batch_y_in[b] = y_in
-        batch_y_out[b] = y_out
+        batch_t[b] = t
         b += 1
 
         # Check if the batch is full
         if b >= batch_size:
-            inputs = [batch_x_in, batch_y_in]
-            outputs = batch_y_out
-
+            inputs = batch_x_in
+            outputs = batch_t
             yield inputs, outputs
 
             # start a new batch
@@ -108,17 +96,17 @@ if __name__ == "__main__":
     # Load all images in the training set (argument given in opts.py) into a Dataset class and
     # create data generator for training
     ds = Dataset()
-    ds.add_dataset(opt.data_path)
-    ds.prepare()
+    num_classes = ds.add_dataset(opt.data_path)
+    ds.prepare(num_classes)
     train_generator = data_generator(ds, batch_size=opt.batch_size)
     steps = len(ds.image_info) // opt.batch_size
 
     print("Training the model...")
     # Train the model (specify learning rates and epochs here)
-    model = Pair_Model().create_model((opt.im_h, opt.im_w, 2), (opt.im_h, opt.im_w, 1))
+    model = Model().create_model((opt.im_h, opt.im_w, 2), num_classes)
 
-    optimizer = tf.train.AdamOptimizer(learning_rate=opt.learning_rate, beta1=0.5)
-    model.compile(optimizer=optimizer, loss='mean_squared_error')
+    optimizer = tf.keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=[tf.keras.metrics.Accuracy()])
     model.fit_generator(train_generator, steps_per_epoch=steps, epochs=opt.epochs, workers=40, max_queue_size=150,
                         use_multiprocessing=True)
 
