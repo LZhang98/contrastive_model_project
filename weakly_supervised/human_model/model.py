@@ -1,11 +1,11 @@
 import tensorflow as tf
 try:
-    from tensorflow.contrib import keras as keras
+    from tensorflow import keras as keras
     print ('load keras from tensorflow package')
 except:
     print ('update your tensorflow')
-from tensorflow.contrib.keras import models
-from tensorflow.contrib.keras import layers
+from tensorflow.keras import models
+from tensorflow.keras import layers
 
 class Model():
     def __init__(self):
