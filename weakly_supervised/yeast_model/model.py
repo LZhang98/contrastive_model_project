@@ -7,6 +7,8 @@ except:
 from tensorflow.keras import models
 from tensorflow.keras import layers
 
+import opts
+
 class Model():
     def __init__(self):
         print ('Building model...')
@@ -37,8 +39,8 @@ class Model():
         flat = layers.Flatten(data_format='channels_last')(conv5)
         # 2) Add two fully connected layers
         # TODO: figure out dimensionality
-        fc1 = layers.Dense(256, activation='relu')(flat)
-        fc2 = layers.Dense(256, activation='relu')(fc1)
+        fc1 = layers.Dense(opts.dense_layer_size, activation='relu')(flat)
+        fc2 = layers.Dense(opts.dense_layer_size, activation='relu')(fc1)
         # 3) Add a classification output layer
         classifier = layers.Dense(num_classes, activation='softmax')(fc2)
 
