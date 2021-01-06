@@ -90,6 +90,7 @@ if __name__ == "__main__":
     # create data generator for training
     ds = Dataset()
     num_classes = ds.add_dataset(opt.data_path)
+    print("Number of classes:", num_classes)
     ds.prepare(num_classes)
     train_generator = data_generator(ds, batch_size=opt.batch_size)
     steps = len(ds.image_info) // opt.batch_size
@@ -98,8 +99,10 @@ if __name__ == "__main__":
     # Train the model (specify learning rates and epochs here)
     model = Model().create_model((opt.im_h, opt.im_w, 2), num_classes)
 
+    print("Define training loop")
     optimizer = tf.keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=[tf.keras.metrics.Accuracy()])
+    print("Fit")
     model.fit_generator(train_generator, steps_per_epoch=steps, epochs=opt.epochs, workers=opt.num_workers, max_queue_size=150,
                         use_multiprocessing=True)
 
