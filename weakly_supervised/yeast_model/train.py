@@ -24,6 +24,9 @@ import opts as opt
 from dataset import Dataset
 from model import Model
 
+# Global variable for number of classes:
+NUM_CLASSES = 0
+
 '''Given a dataset class (see dataset.py), load an image from the class'''
 def load_image_gt(ds, image_id, num_classes, augment=True):
     # Load image and pair
@@ -90,15 +93,16 @@ if __name__ == "__main__":
     # Load all images in the training set (argument given in opts.py) into a Dataset class and
     # create data generator for training
     ds = Dataset()
-    num_classes = ds.add_dataset(opt.data_path)
-    print("Number of classes:", num_classes)
+    NUM_CLASSES = ds.add_dataset(opt.data_path)
+
+    print("Number of classes:", NUM_CLASSES)
     ds.prepare()
-    train_generator = data_generator(ds, num_classes, batch_size=opt.batch_size)
+    train_generator = data_generator(ds, NUM_CLASSES, batch_size=opt.batch_size)
     steps = len(ds.image_info) // opt.batch_size
 
     print("Training the model...")
     # Train the model (specify learning rates and epochs here)
-    model = Model().create_model((opt.im_h, opt.im_w, 2), num_classes)
+    model = Model().create_model((opt.im_h, opt.im_w, 2), NUM_CLASSES)
 
     print("Define training loop")
     optimizer = tf.keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
