@@ -61,14 +61,16 @@ class Dataset(object):
         return folder_count
 
     '''Load and return the image indexed by the integer given by image_id'''
-    def load_image(self, image_id):
+    def load_image(self, image_id, num_classes):
         # Get the path of the image
         path = self.image_info[image_id]['path']
         proteinname = self.image_info[image_id]['name']
         brightfieldname = proteinname.replace("_gfp", "_bf")
 
          # Get the one-hot label of the image
-        label = self.image_info[image_id]['label']
+        index = self.image_info[image_id]['class']
+        label = np.zeros(num_classes)
+        label[index] = 1
 
         # Load and return all two channels for yeast data
         protein = np.array(Image.open(path + proteinname))
@@ -133,13 +135,7 @@ class Dataset(object):
     '''Prepares the dataset file for use.
     
     Uses num_classes from add_dataset to generate one-hot vectors'''
-    def prepare(self, num_classes):
+    def prepare(self):
         # Build (or rebuild) everything else from the info dicts.
         self.num_images = len(self.image_info)
         self.image_ids = np.arange(self.num_images)
-
-        # Generate one hot vectors. Use num_classes for vector length
-        for image in self.image_info:
-            label = np.zeros(num_classes)
-            label[image['class']] = 1
-            image['label'] = label
