@@ -25,10 +25,9 @@ from dataset import Dataset
 from model import Model
 
 '''Given a dataset class (see dataset.py), load an image from the class'''
-def load_image_gt(ds, image_id, num_classes, augment=True):
+def load_image_gt(ds, image_id, augment=True):
     # Load image and pair
-    num_classes = ...
-    (x_protein, x_bf, t) = ds.load_image(image_id, num_classes)
+    (x_protein, x_bf, t) = ds.load_image(image_id)
 
     # Whatever preprocessing operations we need here
     # Rescale images
@@ -49,7 +48,7 @@ def load_image_gt(ds, image_id, num_classes, augment=True):
     return x_in, t
 
 '''Data generator for Keras model (retrieves images infinitely)'''
-def data_generator(dataset, num_classes, shuffle=True, augment=True, batch_size=1):
+def data_generator(dataset, shuffle=True, augment=True, batch_size=1):
     b = 0  # batch item index
     image_index = -1
     image_ids = np.copy(dataset.image_ids)
@@ -63,7 +62,7 @@ def data_generator(dataset, num_classes, shuffle=True, augment=True, batch_size=
 
         # Get current image
         image_id = image_ids[image_index]
-        x_in, t = load_image_gt(dataset, image_id, num_classes, augment=augment)
+        x_in, t = load_image_gt(dataset, image_id, augment=augment)
 
         # Initialize batch arrays if empty
         if b == 0:
@@ -94,7 +93,7 @@ if __name__ == "__main__":
 
     print("Number of classes:", num_classes)
     ds.prepare()
-    train_generator = data_generator(ds, num_classes, batch_size=opt.batch_size)
+    train_generator = data_generator(ds, batch_size=opt.batch_size)
     steps = len(ds.image_info) // opt.batch_size
 
     print("Training the model...")

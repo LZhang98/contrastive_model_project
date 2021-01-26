@@ -16,6 +16,7 @@ class Dataset(object):
     def __init__(self):
         self.image_ids = []
         self.image_info = []
+        self.num_classes = 0
 
     '''Add an individual image to the class. Called iteratively by add_dataset().
     For memory purposes, this class loads only the paths of each image, and returns the 
@@ -58,6 +59,7 @@ class Dataset(object):
             
             folder_count += 1
         
+        self.num_classes = folder_count
         return folder_count
 
     '''Load and return the image indexed by the integer given by image_id'''
@@ -69,9 +71,7 @@ class Dataset(object):
 
          # Get the one-hot label of the image
         index = self.image_info[image_id]['class']
-        print(index)
-        print(type(num_classes))
-        label = np.zeros(num_classes, dtype=int)
+        label = np.zeros(self.num_classes, dtype=int)
         label[index] = 1
 
         # Load and return all two channels for yeast data
