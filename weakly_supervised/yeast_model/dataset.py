@@ -63,7 +63,7 @@ class Dataset(object):
         return folder_count
 
     '''Load and return the image indexed by the integer given by image_id'''
-    def load_image(self, image_id, num_classes):
+    def load_image(self, image_id):
         # Get the path of the image
         path = self.image_info[image_id]['path']
         proteinname = self.image_info[image_id]['name']
