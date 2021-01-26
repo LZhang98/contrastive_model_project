@@ -69,7 +69,9 @@ class Dataset(object):
 
          # Get the one-hot label of the image
         index = self.image_info[image_id]['class']
-        label = np.zeros(num_classes)
+        print(index)
+        print(type(num_classes))
+        label = np.zeros(num_classes, dtype=int)
         label[index] = 1
 
         # Load and return all two channels for yeast data
@@ -138,4 +140,4 @@ class Dataset(object):
     def prepare(self):
         # Build (or rebuild) everything else from the info dicts.
         self.num_images = len(self.image_info)
-        self.image_ids = np.arange(self.num_images)
+        self.image_ids = np.arange(self.num_images) 
