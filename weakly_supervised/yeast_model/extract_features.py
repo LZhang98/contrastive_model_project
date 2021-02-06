@@ -41,8 +41,7 @@ if __name__ == "__main__":
     model = Model().create_model((opt.im_h, opt.im_w, 2), num_classes)
     model.load_weights(modelpath)
 
-    for layer in model.layers:
-        print(layer.name)
+    print(model.summary())
 
     # for layer in layers:
         
