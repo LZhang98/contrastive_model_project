@@ -20,7 +20,8 @@ num_workers = 20
 # checkpoint_path = './pretrained_weights/'	# Path to save the weights in after training
 checkpoint_path = './test/'
 
-data_path = '/media/data/rap0/rap0_single_cell/'		# Path to get image data
+# data_path = '/media/data/rap0/rap0_single_cell/'		# Path to get image data
+data_path = '/media/data/chong_images/'
 
 if checkpoint_path != '' and not os.path.isdir(checkpoint_path):
     os.mkdir(checkpoint_path)
