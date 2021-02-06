@@ -25,6 +25,11 @@ if __name__ == "__main__":
     # Layers to extract single cell features from
     layers = ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
 
+    # Location of num_classes variable:
+    num_classes_f = open("num_classes.txt", "r")
+    # Read in value
+    num_classes = int(num_classes_f.read())
+    print("Number of classes: ", num_classes)
     # Directory of subfolders of single-cell image crops
     datapath = opt.data_path
 
@@ -33,7 +38,7 @@ if __name__ == "__main__":
 
     print ("Loading the model...")
     # Load pretrained model and set the layer to extract features from
-    model = Model().create_model((opt.im_h, opt.im_w, 2), (opt.im_h, opt.im_w, 1))
+    model = Model().create_model((opt.im_h, opt.im_w, 2), (opt.im_h, opt.im_w, 1), )
     model.load_weights(modelpath)
 
     for layer in model.layers:

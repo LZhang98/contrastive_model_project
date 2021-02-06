@@ -39,8 +39,8 @@ class Model():
         flat = layers.Flatten(data_format='channels_last')(conv5)
         # 2) Add two fully connected layers
         # TODO: figure out dimensionality
-        fc1 = layers.Dense(opts.dense_layer_size, activation='relu')(flat)
-        fc2 = layers.Dense(opts.dense_layer_size, activation='relu')(fc1)
+        fc1 = layers.Dense(opts.dense_layer_size, activation='relu', name='dense1_1')(flat)
+        fc2 = layers.Dense(opts.dense_layer_size, activation='relu', name='dense2_1')(fc1)
         # 3) Add a classification output layer
         classifier = layers.Dense(num_classes, activation='softmax')(fc2)
 
