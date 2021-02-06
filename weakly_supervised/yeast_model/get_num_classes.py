@@ -12,6 +12,6 @@ print("Number of classes:", num_classes)
 
 f = open("num_classes.txt", "w")
 
-f.write(num_classes)
+f.write(str(num_classes))
 
 f.close()
