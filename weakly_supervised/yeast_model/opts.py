@@ -8,7 +8,7 @@ Copyright (C) 2018 Alex Lu
 
 import os
 
-batch_size = 16			# Batch size to use during training - if you run into memory constraints, reduce this
+batch_size = 8			# Batch size to use during training - if you run into memory constraints, reduce this
 im_h = 64			# Height of input images
 im_w = 64			# Width of input images
 dense_layer_size = 128
@@ -21,6 +21,7 @@ num_workers = 20
 checkpoint_path = './test/'
 
 # data_path = '/media/data/rap0/rap0_single_cell/'		# Path to get image data
+# data_path = './toy_dataset/images/'
 data_path = '/media/data/chong_images/'
 
 if checkpoint_path != '' and not os.path.isdir(checkpoint_path):
