@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     print ("Loading the model...")
     # Load pretrained model and set the layer to extract features from
-    model = Model().create_model((opt.im_h, opt.im_w, 2), (opt.im_h, opt.im_w, 1), )
+    model = Model().create_model((opt.im_h, opt.im_w, 2), num_classes)
     model.load_weights(modelpath)
 
     for layer in model.layers:
