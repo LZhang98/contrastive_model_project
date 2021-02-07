@@ -23,8 +23,8 @@ from model import Model
 
 if __name__ == "__main__":
     # Layers to extract single cell features from
-    layers = ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1", 
-                'dense1', 'dense2', 'classifier']
+    conv_layers = ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
+    flat_layers = ['dense1', 'dense2', 'classifier']
 
     # Location of num_classes variable:
     num_classes_f = open("num_classes.txt", "r")
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     print(model.summary())
 
-    for layer in layers:
+    for layer in conv_layers:
         
         intermediate_model = tf.keras.Model(inputs=model.get_layer("x_in").input,
                                             outputs=model.get_layer(layer).output)
