@@ -24,7 +24,7 @@ from model import Model
 if __name__ == "__main__":
     # Layers to extract single cell features from
     conv_layers = ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
-    flat_layers = ['dense1', 'dense2', 'classifier']
+    flat_layers = ['dense1', 'dense2']
 
     # Location of num_classes variable:
     num_classes_f = open("num_classes.txt", "r")
@@ -116,9 +116,8 @@ if __name__ == "__main__":
 
                     print(prediction.shape)
 
-                    prediction = np.max(prediction, axis=(0, 1))
-
-                    print(prediction.shape)
+                    # prediction = np.max(prediction, axis=(0, 1))
+                    # print(prediction.shape)
 
                     # Write features into a file
                     outputfile = opt.checkpoint_path + "yeast_features_" + layer + ".txt"
