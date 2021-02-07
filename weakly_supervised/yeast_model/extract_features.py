@@ -106,10 +106,19 @@ if __name__ == "__main__":
                     x_in = np.stack((gfp, rfp), axis=-1)
                     x_in = np.expand_dims(x_in, axis=0)
 
+                    print(x_in.shape)
+
                     prediction = intermediate_model.predict([x_in], batch_size=1)
 
+                    print(prediction.shape)
+
                     prediction = np.squeeze(prediction)
+
+                    print(prediction.shape)
+
                     prediction = np.max(prediction, axis=(0, 1))
+
+                    print(prediction.shape)
 
                     # Write features into a file
                     outputfile = opt.checkpoint_path + "yeast_features_" + layer + ".txt"
