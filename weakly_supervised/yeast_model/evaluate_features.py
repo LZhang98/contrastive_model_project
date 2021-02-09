@@ -15,4 +15,4 @@ data = pandas.read_csv('test/yeast_features_'+file_list[0], sep = '\t', )
 
 print(data.shape)
 
-print(data[0:5,:])
+print(data.axes)
