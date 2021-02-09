@@ -14,11 +14,12 @@ file_list = ['conv1_1',
 
 for i in range(len(file_list)):
     f = file_list[i]
+    print(f)
     data = pandas.read_csv('test/yeast_features_'+f+'.txt', sep = '\t', )
 
-    data.set_index(data.columns[0])
+    data = data.set_index(data.columns[0])
 
-    data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
+    data = data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
 
     print(data)
 
