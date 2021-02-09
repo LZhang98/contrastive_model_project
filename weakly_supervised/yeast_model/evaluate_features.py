@@ -11,7 +11,7 @@ file_list = ['conv1_1.txt',
             'dense1.txt',
             'dense2.txt']
 
-data = pandas.read_csv('test/yeast_features/'+file_list[0], sep = '\t', )
+data = pandas.read_csv('test/yeast_features_'+file_list[0], sep = '\t', )
 
 print(data.shape)
 
