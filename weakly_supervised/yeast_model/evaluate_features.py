@@ -1,5 +1,6 @@
 import umap
 import numpy as np
+import pandas
 import umap.plot
 
 file_list = ['conv1_1.txt',
@@ -10,9 +11,8 @@ file_list = ['conv1_1.txt',
             'dense1.txt',
             'dense2.txt']
 
-data = np.genfromtxt(fname="test/yeast_features_conv1_1.txt", delimiter="\t")
+data = pandas.read_csv('test/yeast_features/'+file_list[0], sep = '\t', )
 
 print(data.shape)
 
-row_names = data[:,0]
-print(row_names[0:5])
+print(data[0:5,:])
