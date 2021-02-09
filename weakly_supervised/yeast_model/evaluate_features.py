@@ -19,7 +19,7 @@ for i in range(len(file_list)):
 
     data = data.set_index(data.columns[0])
 
-    data = data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
+    data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
 
     print(data)
 
