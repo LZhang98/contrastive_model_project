@@ -29,16 +29,23 @@ for i in range(len(file_list)):
 
     print(u)
 
+    print("Getting classes:")
     index_values = data.index
     class_series = index_values.str.split("_").str[0]
     class_arr = class_series.to_numpy()
-    classes = set(class_arr)
-    num_classes = len(classes)
+    class_list = list(set(class_arr))
+    print("classes:", class_list)
+    num_classes = len(class_list)
 
-    colors = [viridis(float(i)/num_classes) for i in class_arr]
+    numeric_class_arr = []
+    for item in class_arr:
+        numeric_class_arr.append(class_list.index(item))
+
+    colors = [viridis(float(i)/num_classes) for i in numeric_class_arr]
 
     x = u[:,0]
     y = u[:,1]
     plt.figure(i)
     plt.scatter(x, y, color=colors, marker='.')
     plt.savefig('test/yeast_features_'+f+'_plot.png')
+
