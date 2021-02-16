@@ -34,6 +34,7 @@ for i in range(len(file_list)):
     class_series = index_values.str.split("_").str[0]
     class_arr = class_series.to_numpy()
     class_list = list(set(class_arr))
+    class_list.sort()
     print("classes:", class_list)
     num_classes = len(class_list)
 
