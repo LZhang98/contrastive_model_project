@@ -2,6 +2,7 @@ import umap
 import numpy as np
 import pandas
 import matplotlib.pyplot as plt
+from matplotlib.cm import viridis
 
 file_list = ['conv1_1',
             'conv2_1',
@@ -28,8 +29,16 @@ for i in range(len(file_list)):
 
     print(u)
 
+    index_values = data.index
+    class_series = index_values.str.split("_").str[0]
+    class_arr = class_series.to_numpy()
+    classes = set(class_arr)
+    num_classes = len(classes)
+
+    colors = [viridis(float(i)/num_classes) for i in class_arr]
+
     x = u[:,0]
     y = u[:,1]
     plt.figure(i)
-    plt.scatter(x, y, marker='.')
+    plt.scatter(x, y, color=colors, marker='.')
     plt.savefig('test/yeast_features_'+f+'_plot.png')
