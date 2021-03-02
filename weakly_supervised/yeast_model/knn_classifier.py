@@ -36,3 +36,5 @@ for i in range(len(file_list)):
     accuracy = knn.score(X, Y)
 
     destf.write(file_list[i] + '\t' + accuracy + '\n')
+
+destf.close()
