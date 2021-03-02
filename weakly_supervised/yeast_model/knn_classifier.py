@@ -28,12 +28,17 @@ for i in range(len(file_list)):
         data.at[i, 0] = data.at[i, 0].split('_')[0]
     
     X = data.iloc[:,1:96].to_numpy()
-    Y = data.iloc[:,0].to_numpy()
+    Y = data.iloc[:,0].to_numpy()  
+
+    print(X)
+    print(Y)
 
     knn = KNeighborsClassifier(n_neighbors = K)
     knn.fit(X, Y)
 
+    print('scoring')
     accuracy = knn.score(X, Y)
+    print(accuracy)
 
     destf.write(file_list[i] + '\t' + accuracy + '\n')
 
