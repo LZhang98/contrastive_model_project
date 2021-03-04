@@ -3,6 +3,7 @@ import numpy as np
 import pandas
 import matplotlib.pyplot as plt
 from matplotlib.cm import viridis
+from sklearn.neighbors import KNeighborsClassifier
 
 file_list = ['conv1_1',
             'conv2_1',
@@ -16,12 +17,16 @@ file_list = ['conv1_1',
 for i in range(len(file_list)):
     f = file_list[i]
     print(f)
-    data = pandas.read_csv('test/yeast_features_'+f+'.txt', sep = '\t', )
+    data = pandas.read_csv('test/yeast_features_'+f+'.txt', sep = '\t', header=None)
 
     data = data.set_index(data.columns[0])
 
-    data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
+    N = len(data.columns)
+    K = 21
+    num_rows = data.shape[0]
 
+    data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
+    
     print(data)
 
     fit = umap.UMAP()
@@ -47,6 +52,6 @@ for i in range(len(file_list)):
     x = u[:,0]
     y = u[:,1]
     plt.figure(i)
-    plt.scatter(x, y, color=colors, marker='.')
+    plt.scatter(x, y, color=colors, marker=',')
     plt.savefig('test/yeast_features_'+f+'_plot.png')
 
