@@ -4,6 +4,7 @@ import pandas
 import matplotlib.pyplot as plt
 from matplotlib.cm import tab20
 from sklearn.neighbors import KNeighborsClassifier
+from matplotlib.lines import Line2D
 
 file_list = ['conv1_1',
             'conv2_1',
@@ -49,9 +50,19 @@ for i in range(len(file_list)):
 
     colors = [tab20(float(i)/num_classes) for i in numeric_class_arr]
 
+    legend_elements = []
+    for j in range(num_classes):
+        curr_class = class_list[j]
+        curr_colour = tab20(float(j)/num_classes)
+        legend_elements.append(Line2D([0], [0], color=curr_colour, lw=2, label=curr_class))
+
     x = u[:,0]
     y = u[:,1]
-    plt.figure(i)
-    plt.scatter(x, y, color=colors, marker=',', s=0.1)
-    plt.savefig('test/yeast_features_'+f+'_plot.png')
+    # plt.figure(i)
+    # plt.scatter(x, y, color=colors, marker=',', s=0.1)
+    # plt.savefig('test/yeast_features_'+f+'_plot.png')
 
+    fig, ax = plt.subplots(i)
+    ax.scatter(x, y, color=colors, marker=',', s=0.1)
+    ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), loc='upper left', fontsize='xx-small')
+    plt.savefig('test/z_yeast_features_'+f+'_plot.png')
