@@ -62,7 +62,7 @@ for i in range(len(file_list)):
     # plt.scatter(x, y, color=colors, marker=',', s=0.1)
     # plt.savefig('test/yeast_features_'+f+'_plot.png')
 
-    fig, ax = plt.subplots(i)
+    fig, ax = plt.subplots()
     ax.scatter(x, y, color=colors, marker=',', s=0.1)
     ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), loc='upper left', fontsize='xx-small')
     plt.savefig('test/z_yeast_features_'+f+'_plot.png')
