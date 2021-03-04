@@ -11,7 +11,8 @@ file_list = ['conv1_1',
             'conv4_1',
             'conv5_1',
             'dense1',
-            'dense2']
+            'dense2',
+            'rand_conv3_1']
 
 destf = open('knn_acc.txt', 'w')
 

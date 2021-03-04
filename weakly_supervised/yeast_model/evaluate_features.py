@@ -12,11 +12,15 @@ file_list = ['conv1_1',
             'conv4_1',
             'conv5_1',
             'dense1',
-            'dense2']
+            'dense2',
+            'rand_conv3_1']
 
+rand = ['rand_conv3_1']
 
-for i in range(len(file_list)):
-    f = file_list[i]
+# for i in range(len(file_list)):
+    # f = file_list[i]
+for i in range(1):
+    f = rand[i]
     print(f)
     data = pandas.read_csv('test/yeast_features_'+f+'.txt', sep = '\t', header=None)
 
@@ -58,11 +62,8 @@ for i in range(len(file_list)):
 
     x = u[:,0]
     y = u[:,1]
-    # plt.figure(i)
-    # plt.scatter(x, y, color=colors, marker=',', s=0.1)
-    # plt.savefig('test/yeast_features_'+f+'_plot.png')
 
     fig, ax = plt.subplots()
     ax.scatter(x, y, color=colors, marker=',', s=0.1)
     ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), loc='upper left', fontsize='xx-small')
-    plt.savefig('test/z_yeast_features_'+f+'_plot.png')
+    plt.savefig('test/z_yeast_features_'+f+'_plot.png', )
