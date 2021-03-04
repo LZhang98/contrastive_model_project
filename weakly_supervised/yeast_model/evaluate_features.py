@@ -2,7 +2,7 @@ import umap
 import numpy as np
 import pandas
 import matplotlib.pyplot as plt
-from matplotlib.cm import viridis
+from matplotlib.cm import tab20
 from sklearn.neighbors import KNeighborsClassifier
 
 file_list = ['conv1_1',
@@ -47,7 +47,7 @@ for i in range(len(file_list)):
     for item in class_arr:
         numeric_class_arr.append(class_list.index(item))
 
-    colors = [viridis(float(i)/num_classes) for i in numeric_class_arr]
+    colors = [tab20(float(i)/num_classes) for i in numeric_class_arr]
 
     x = u[:,0]
     y = u[:,1]
