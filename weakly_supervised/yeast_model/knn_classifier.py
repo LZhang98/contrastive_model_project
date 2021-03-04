@@ -14,12 +14,12 @@ file_list = ['conv1_1',
             'dense2',
             'rand_conv3_1']
 
-destf = open('knn_acc.txt', 'w')
+destf = open('knn_acc.txt', 'a')
 
 for i in range(len(file_list)):
     if i < 7:
         continue
-    
+
     f = file_list[i]
     print(f)
     data = pandas.read_csv('test/yeast_features_'+f+'.txt', sep = '\t', header=None)
