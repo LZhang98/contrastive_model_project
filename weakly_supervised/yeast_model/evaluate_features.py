@@ -52,6 +52,6 @@ for i in range(len(file_list)):
     x = u[:,0]
     y = u[:,1]
     plt.figure(i)
-    plt.scatter(x, y, color=colors, marker=',')
+    plt.scatter(x, y, color=colors, marker=',', s=0.1)
     plt.savefig('test/yeast_features_'+f+'_plot.png')
 
