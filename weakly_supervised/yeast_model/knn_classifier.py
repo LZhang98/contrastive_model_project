@@ -17,6 +17,9 @@ file_list = ['conv1_1',
 destf = open('knn_acc.txt', 'w')
 
 for i in range(len(file_list)):
+    if i < 7:
+        continue
+    
     f = file_list[i]
     print(f)
     data = pandas.read_csv('test/yeast_features_'+f+'.txt', sep = '\t', header=None)
