@@ -50,7 +50,7 @@ for i in range(len(file_list)):
         print('scoring '+curr_class)
         end = start + class_counts[1][j]
         X_subset = X[start:end,:]
-        Y_subset = Y[start:end,:]
+        Y_subset = Y[start:end]
         accuracy = knn.score(X_subset, Y_subset)
         model_class_accuracy.write(curr_class + '\t' + str(accuracy) + '\n')
         start = end
