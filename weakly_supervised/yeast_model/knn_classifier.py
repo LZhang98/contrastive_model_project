@@ -42,7 +42,7 @@ for i in range(len(file_list)):
 
     # destf.write(f + '\t' + str(accuracy) + '\n')
 
-    model_class_accuracy = open('class_knn_'+f+'.txt')
+    model_class_accuracy = open('class_knn_'+f+'.txt', 'w')
 
     start = 0
     for j in range(17):
