@@ -107,7 +107,7 @@ if __name__ == "__main__":
     optimizer = tf.keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=[tf.keras.metrics.Accuracy()])
     print("Fit")
-    history = model.fit_generator(train_generator, steps_per_epoch=steps, epochs=opt.epochs, workers=opt.num_workers, max_queue_size=150,
+    history = model.fit_generator(train_generator, validation_split=0.2, steps_per_epoch=steps, epochs=opt.epochs, workers=opt.num_workers, max_queue_size=150,
                         use_multiprocessing=True)
 
     print("Saving model weights in " + opt.checkpoint_path)
