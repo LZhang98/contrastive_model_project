@@ -18,13 +18,14 @@ epochs = 10
 num_workers = 20
 
 # checkpoint_path = './pretrained_weights/'	# Path to save the weights in after training
-checkpoint_path = './test/'
+# checkpoint_path = './test/'
+checkpoint_path = './test2/'
 
-# data_path = '/media/data/rap0/rap0_single_cell/'		# Path to get image data
+data_path = '/media/data/rap0/rap0_single_cell/'		# Path to get image data
 # data_path = './toy_dataset/images/'
-data_path = '/media/data/chong_images/'
+# data_path = '/media/data/chong_images/'
 
-history_path = './test/history.txt'
+history_path = checkpoint_path+'history.txt'
 
 if checkpoint_path != '' and not os.path.isdir(checkpoint_path):
     os.mkdir(checkpoint_path)
