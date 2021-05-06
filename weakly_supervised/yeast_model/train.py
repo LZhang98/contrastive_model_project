@@ -19,6 +19,7 @@ import numpy as np
 import tensorflow as tf
 import keras
 import skimage.exposure
+import json
 
 import opts as opt
 from dataset import Dataset
@@ -91,6 +92,8 @@ if __name__ == "__main__":
     ds = Dataset()
     num_classes = ds.add_dataset(opt.data_path)
 
+    print(opt.history_path)
+
     print("Number of classes:", num_classes)
     ds.prepare()
     train_generator = data_generator(ds, batch_size=opt.batch_size)
@@ -104,10 +107,13 @@ if __name__ == "__main__":
     optimizer = tf.keras.optimizers.Adam(learning_rate=opt.learning_rate, beta_1=0.5)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=[tf.keras.metrics.Accuracy()])
     print("Fit")
-    model.fit_generator(train_generator, steps_per_epoch=steps, epochs=opt.epochs, workers=opt.num_workers, max_queue_size=150,
+    history = model.fit_generator(train_generator, steps_per_epoch=steps, epochs=opt.epochs, workers=opt.num_workers, max_queue_size=150,
                         use_multiprocessing=True)
 
     print("Saving model weights in " + opt.checkpoint_path)
     # Save the model weights
     model.save(opt.checkpoint_path + "model_weights.h5")
 
+    print("Saving history in " + opt.history_path)
+    with open(opt.history_path, 'w') as f:
+        json.dump(history.history, f)
