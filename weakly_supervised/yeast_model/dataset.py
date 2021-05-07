@@ -1,9 +1,7 @@
 '''
 Scripts to load and prepare yeast single cells for input into the CNN during training.
 
-Author: Alex Lu
-Email: alexlu@cs.toronto.edu
-Copyright (C) 2018 Alex Lu
+Author: Luke Zhang, adapted from Alex Lu
 '''
 
 import os

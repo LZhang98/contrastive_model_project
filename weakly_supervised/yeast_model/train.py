@@ -1,9 +1,7 @@
 '''
 Script to train a yeast paired cell inpainting model from scratch.
 
-Author: Alex Lu
-Email: alexlu@cs.toronto.edu
-Copyright (C) 2018 Alex Lu
+Author: Luke Zhang, adapted from Alex Lu
 '''
 
 import os
