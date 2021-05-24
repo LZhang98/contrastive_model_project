@@ -1,9 +1,15 @@
+"""
+Perform a KNN Classification on the representations in each layer of the pretrained model.
+"""
+
 import umap
 import numpy as np
 import pandas
 import matplotlib.pyplot as plt
 from matplotlib.cm import viridis
 from sklearn.neighbors import KNeighborsClassifier
+
+# All layer names
 
 file_list = ['conv1_1',
             'conv2_1',
@@ -25,14 +31,17 @@ for i in range(len(file_list)):
     K = 11
     num_rows = data.shape[0]
 
+    # Split data frame by features (X) and labels (Y)
     for j in range(num_rows):
         data.at[j, 0] = data.at[j, 0].split('_')[0]
     
     X = data.iloc[:,1:96].to_numpy()
     Y = data.iloc[:,0].to_numpy()  
 
+    # Get the sample size of each class
     class_counts = np.unique(Y, return_counts=True)
 
+    # Fit a kNN classifier
     knn = KNeighborsClassifier(n_neighbors = K)
     knn.fit(X, Y)
 
@@ -42,8 +51,10 @@ for i in range(len(file_list)):
 
     # destf.write(f + '\t' + str(accuracy) + '\n')
 
+    # For writing data
     model_class_accuracy = open('class_knn_'+f+'.txt', 'w')
 
+    # Perform class-by-class KNN
     start = 0
     for j in range(17):
         curr_class = class_counts[0][j]
