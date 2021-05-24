@@ -23,7 +23,7 @@ data_path = '/media/data/rap0/rap0_single_cell/'		# Path to get image data
 # data_path = './toy_dataset/images/'
 # data_path = '/media/data/chong_images/'
 
-history_path = checkpoint_path+'history.txt'
+history_path = checkpoint_path+'history.json'
 
 if checkpoint_path != '' and not os.path.isdir(checkpoint_path):
     os.mkdir(checkpoint_path)

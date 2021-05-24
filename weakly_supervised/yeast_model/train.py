@@ -114,4 +114,4 @@ if __name__ == "__main__":
 
     print("Saving history in " + opt.history_path)
     with open(opt.history_path, 'w') as f:
-        json.dump(history.history, f)
+        json.dump(str(history.history), f)
